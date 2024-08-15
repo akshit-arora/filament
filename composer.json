@@ -1,6 +1,6 @@
 {
-    "name": "filament/filament",
-    "description": "A collection of full-stack components for accelerated Laravel development.",
+    "name": "akshitarora/filament",
+    "description": "A forked version of Filament to be used in Workshop.",
     "license": "MIT",
     "require": {
         "php": "^8.1",
