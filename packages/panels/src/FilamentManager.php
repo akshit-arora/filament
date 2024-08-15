@@ -455,8 +455,6 @@ class FilamentManager
 
     public function getUserAvatarUrl(Model | Authenticatable $user): string
     {
-        $avatar = null;
-
         if ($user instanceof HasAvatar) {
             $avatar = $user->getFilamentAvatarUrl();
         } else {
@@ -472,8 +470,7 @@ class FilamentManager
 
     public function getDefaultTenant(): ?Model
     {
-        $tenantModel = $this->getCurrentPanel()->getTenantModel();
-        return app($tenantModel)::query()->first();
+        return $this->getCurrentPanel()->getTenantModel()::query()->first();
     }
 
     public function getUserDefaultTenant(HasTenants | Model | Authenticatable $user): ?Model
@@ -514,11 +511,10 @@ class FilamentManager
      */
     public function getUserTenants(HasTenants | Model | Authenticatable | null $user): array
     {
-        if (is_null($user)) {
-            $tenantModel = $this->getCurrentPanel()->getTenantModel();
-            $tenants = app($tenantModel)::query()->get();
-        } else {
+        if ($user) {
             $tenants = $user->getTenants($this->getCurrentPanel());
+        } else {
+            $tenants = $this->getCurrentPanel()->getTenantModel()::query()->get();
         }
 
         if ($tenants instanceof Collection) {

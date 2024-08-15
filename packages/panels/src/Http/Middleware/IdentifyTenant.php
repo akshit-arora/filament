@@ -22,16 +22,16 @@ class IdentifyTenant
             return $next($request);
         }
 
-        /** @var Model $user */
+        /** @var ?Model $user */
         $user = $panel->auth()->user();
 
-        if ($user && ! $user instanceof HasTenants) {
+        if ($user && (! $user instanceof HasTenants)) {
             abort(404);
         }
 
         $tenant = $panel->getTenant($request->route()->parameter('tenant'));
 
-        if ($user && ! $user->canAccessTenant($tenant)) {
+        if ($user && (! $user->canAccessTenant($tenant))) {
             abort(404);
         }
 
